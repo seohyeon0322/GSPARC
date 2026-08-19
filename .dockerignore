@@ -1,0 +1,14 @@
+# keep the build context small: no results, binaries, or local artifacts
+result*/
+build*/
+docker_result/
+paper_result*/
+.claude/
+.vscode/
+.git/
+__pycache__/
+*.deb
+*.pdf
+*.out
+gsparc
+dataset/

@@ -1,0 +1,35 @@
+% ---------------------------------------------------------------
+% Revision text for Review 2: repetitions, warm-up, run-to-run variability
+% Insert in "Experimental Setup" (paragraph 1) and after Table~\ref{tab:sota} (paragraph 2)
+% Placeholders [..] are filled from scripts_local/parse_variability.py output.
+% ---------------------------------------------------------------
+
+\textbf{Measurement protocol.}
+For every (dataset, contraction) pair, GSPARC is executed as five independent
+processes. Within each process the contraction is performed three times: the
+first execution is a warm-up that absorbs one-time costs (CUDA context creation,
+memory-pool initialization, and first-touch page faults) and is excluded from
+timing, and the process reports the mean of the remaining two executions. All
+GSPARC numbers in the paper are the mean over the five processes; Table~\ref{tab:variability}
+reports the corresponding standard deviations.
+The CPU baselines (SParTA, SB-TC) and the GPU baseline (GSpTC) do not provide
+a warm-up mode; we execute each of them as [three] independent processes and report
+the mean of the times measured by their own internal timers, which exclude file
+I/O. Every execution is subject to a limit of 3,600 seconds; executions that
+exceed it are reported as T.O., and executions that exhaust host or device
+memory are reported as OOM. Speedups are computed only over runs that
+completed, and the completion rate of each system is reported separately in
+Table~\ref{tab:completion}.
+
+\textbf{Run-to-run variability.}
+Table~\ref{tab:variability} summarizes the variability of GSPARC across the
+five independent runs. The coefficient of variation (CV) of the end-to-end time
+is below [X]\% for [N-k] of the [N] cases and at most [Y]\% overall.
+The variability is almost entirely attributable to the host-side SLITOM
+construction stage, whose multi-threaded sort is sensitive to CPU contention on
+the shared server (CV up to [Z]\%), whereas the GPU stages---index matching and
+accumulation---are highly reproducible (CV below [W]\% in all cases).
+Since the reported speedups over the baselines are one to three orders of
+magnitude, this level of variability does not affect any of the conclusions;
+we therefore omit error bars from Figures~\ref{fig:sota-frostt}--\ref{fig:sota-ccsd}
+for readability and refer to Table~\ref{tab:variability} for the standard deviations.
